@@ -12,26 +12,51 @@ function Landing() {
       setResult([]);
       return;
     }else if(e.target.innerText=="="){
-        
-    }
+        let l=[]
+        let count = "";
+        for(let i=0;i<displayans.length;i++){
+            if("1234567890".includes(displayans[i])){
+                count += displayans[i];
+            }else{
+                l.push(Number(count));
+                count="";
+                l.push(displayans[i])
+            }
+        }
+        l.push(Number(count));
+        let finalresult = l[0];
+        for(let i=1;i<l.length-1;i+=2){
+            if(l[i]=="+"){
+                finalresult += l[i+1]
+            }else if(l[i]=="-"){
+                finalresult -= l[i+1]
+            }else if(l[i]=="*"){
+                finalresult *= l[i+1]
+            }else if(l[i]=="/"){
+                if (l[i+1]==0){
+                    setDisplayans("Error: Division by zero");
+                    setResult("Error: Division by zero");
+                    return;
+                }
+                finalresult /= l[i+1]
+            }
+            setDisplayans(finalresult)
+            setResult(finalresult)
+
+    }}
     
     else if(e.target.innerText=="Cross"){
         let x = [];
         for(let i=0;i<displayans.length-1;i++){
             x.push(displayans[i])
-            console.log(displayans[i])
         }
         setDisplayans(x)
-        console.log(x)
 
     }
     else {
 
         setDisplayans([displayans ]+[ e.target.innerText]);
         setResult(pri=>[pri]+[ e.target.innerText])
-        console.log(result)
-        console.log(typeof(e.target.innerText),typeof(Number(e.target.innerText)) , Number(e.target.innerText));
-        console.log(Number(e.target.innerText)===NaN)
     }
   }
 
