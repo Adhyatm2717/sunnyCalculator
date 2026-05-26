@@ -8,11 +8,12 @@ function Landing() {
   const [displayans, setDisplayans] = useState([]);
   const [result, setResult] = useState([]);
   function handelclike(e){
-    if (e.target.innerText=="AC"){
+    const val = e.target.innerText;
+    if (val == "AC"){
       setDisplayans('');
       setResult([]);
       return;
-    }else if(e.target.innerText=="="){
+    } else if (val == "="){
         let l=[]
         let count = "";
         for(let i=0;i<displayans.length;i++){
@@ -43,17 +44,18 @@ function Landing() {
             }
             setDisplayans(finalresult)
             setResult(finalresult)
-
-    }}
-    
-    else if(e.target.innerText=="Cross"){
+        }
+    }
+    else if (val == "⌫" || val == "Cross"){
         setDisplayans(displayans.toString().slice(0, -1));
         setResult(pri=> pri.toString().slice(0, -1))
     }
     else {
-
-        setDisplayans(displayans + e.target.innerText);
-        setResult(pri=> pri + e.target.innerText)
+        let actualChar = val;
+        if (val == "×") actualChar = "*";
+        if (val == "÷") actualChar = "/";
+        setDisplayans(displayans + actualChar);
+        setResult(pri=> pri + actualChar)
     }
   }
   const detectkey = (e)=>{
@@ -121,347 +123,301 @@ function Landing() {
         body {
           margin: 0;
           padding: 0;
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          background-color: #09090e;
-          background-image: 
-            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-            radial-gradient(at 50% 100%, rgba(236, 72, 153, 0.08) 0px, transparent 50%);
-          background-attachment: fixed;
+          font-family: 'Inter', sans-serif;
+          background-color: #dcdcdc; /* Apple gray canvas background */
           min-height: 100vh;
           display: flex;
           flex-direction: column;
         }
 
-        /* Centered layout wrapper */
-        .borrder {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          grid-auto-rows: minmax(84px, auto);
-          gap: 16px;
-          padding: 28px;
-          max-width: 450px;
-          width: 90%;
-          margin: 4.5rem auto;
-          background: rgba(18, 18, 30, 0.55);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 32px;
-          box-shadow: 
-            0 28px 56px -14px rgba(0, 0, 0, 0.55),
-            0 0 50px rgba(99, 102, 241, 0.06),
-            inset 0 1px 1px rgba(255, 255, 255, 0.1);
-          transition: all 0.3s ease;
+        /* Center container wrapper on the screen */
+        .calculator-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+          padding: 2.5rem 1rem;
         }
 
-        /* Display box - Tech Screen style */
+        /* High fidelity iPhone container */
+        .iphone-container {
+          position: relative;
+          width: 380px;
+          height: 780px;
+          background-color: #000000; /* Pure black iphone face */
+          border: 12px solid #1c1c1e; /* Space gray physical bezel */
+          border-radius: 48px;
+          box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.35),
+            0 0 0 1px rgba(0, 0, 0, 0.05),
+            inset 0 0 3px rgba(255, 255, 255, 0.15);
+          padding: 40px 18px 24px 18px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          user-select: none;
+        }
+
+        /* Physical projecting side buttons */
+        .iphone-container::before {
+          /* Silent switch */
+          content: '';
+          position: absolute;
+          left: -15px;
+          top: 80px;
+          width: 3px;
+          height: 26px;
+          background-color: #a1a1a6;
+          border-radius: 3px 0 0 3px;
+        }
+
+        /* Volume Projecting buttons */
+        .volume-up {
+          position: absolute;
+          left: -15px;
+          top: 130px;
+          width: 3px;
+          height: 52px;
+          background-color: #a1a1a6;
+          border-radius: 3px 0 0 3px;
+        }
+
+        .volume-down {
+          position: absolute;
+          left: -15px;
+          top: 196px;
+          width: 3px;
+          height: 52px;
+          background-color: #a1a1a6;
+          border-radius: 3px 0 0 3px;
+        }
+
+        /* Power Projecting button */
+        .power-btn {
+          position: absolute;
+          right: -15px;
+          top: 160px;
+          width: 3px;
+          height: 76px;
+          background-color: #a1a1a6;
+          border-radius: 0 3px 3px 0;
+        }
+
+        /* Large flush display at top-right */
         .box {
-          grid-column: 1 / -1;
-          background-color: rgba(9, 9, 14, 0.85);
-          color: #f8fafc;
-          padding: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 22px;
-          font-size: 2.6rem;
-          font-weight: 600;
+          width: 100%;
+          background-color: transparent;
+          color: #ffffff;
+          border: none;
+          padding: 0 12px 14px 12px;
+          font-size: 4.2rem;
+          font-weight: 200;
           text-align: right;
           word-wrap: break-word;
           word-break: break-all;
           display: flex;
           align-items: flex-end;
           justify-content: flex-end;
-          min-height: 120px;
-          margin-bottom: 10px;
-          box-shadow: 
-            inset 0 4px 12px rgba(0, 0, 0, 0.8),
-            0 1px 1px rgba(255, 255, 255, 0.05);
-          text-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
-          font-family: 'Plus Jakarta Sans', monospace;
-          transition: all 0.2s ease;
+          min-height: 160px;
+          margin-bottom: 8px;
+          font-family: 'Inter', sans-serif;
           cursor: default;
+          letter-spacing: -0.03em;
         }
 
-        /* Base button styles */
+        /* Button Grid Layout */
+        .borrder {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+          width: 100%;
+          padding: 0;
+          background: transparent;
+          border: none;
+          box-shadow: none;
+        }
+
+        /* General Apple circular button style */
         .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, 
         .ten, .Zero, .plus, .sub, .multi, .divide, .cross, .AC {
-          border: 1px solid rgba(255, 255, 255, 0.04);
-          border-radius: 20px;
-          font-size: 1.45rem;
-          font-weight: 700;
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          font-size: 1.8rem;
+          font-weight: 400;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-          padding: 0;
+          transition: background-color 0.15s ease, transform 0.08s ease;
+          border: none;
           user-select: none;
+          font-family: 'Inter', sans-serif;
+          box-shadow: none;
         }
 
-        /* Number buttons - Glass dark theme */
+        /* Button press animation scale */
+        .one:active, .two:active, .three:active, .four:active, .five:active, 
+        .six:active, .seven:active, .eight:active, .nine:active, .Zero:active,
+        .plus:active, .sub:active, .multi:active, .divide:active, .cross:active, .AC:active, .ten:active {
+          transform: scale(0.92);
+        }
+
+        /* Numbers - Dark Gray background */
         .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, .Zero {
-          background-color: rgba(255, 255, 255, 0.03);
-          color: #e2e8f0;
-          box-shadow: 
-            0 4px 10px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0px rgba(255, 255, 255, 0.05);
+          background-color: #333333;
+          color: #ffffff;
         }
 
         .one:hover, .two:hover, .three:hover, .four:hover, .five:hover, 
         .six:hover, .seven:hover, .eight:hover, .nine:hover, .Zero:hover {
-          background-color: rgba(255, 255, 255, 0.08);
-          transform: translateY(-2px);
+          background-color: #4a4a4a;
+        }
+
+        /* Operators - Vibrant Orange */
+        .plus, .sub, .multi, .divide, .ten {
+          background-color: #ff9f0a;
           color: #ffffff;
-          box-shadow: 
-            0 8px 16px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0px rgba(255, 255, 255, 0.1);
         }
 
-        .one:active, .two:active, .three:active, .four:active, .five:active, 
-        .six:active, .seven:active, .eight:active, .nine:active, .Zero:active {
-          transform: translateY(1px);
-          background-color: rgba(255, 255, 255, 0.05);
-          box-shadow: 
-            0 2px 4px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0px rgba(255, 255, 255, 0.03);
+        .plus:hover, .sub:hover, .multi:hover, .divide:hover, .ten:hover {
+          background-color: #ffb03a;
         }
 
-        /* Operator buttons - Neon Amber Accent */
-        .plus, .sub, .multi, .divide {
-          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-          color: #ffffff;
-          grid-column: span 1;
-          box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+        /* Operators active highlight action */
+        .plus:active, .sub:active, .multi:active, .divide:active, .ten:active {
+          background-color: #ffffff;
+          color: #ff9f0a;
         }
 
-        .plus:hover, .sub:hover, .multi:hover, .divide:hover {
-          background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
-        }
-
-        .plus:active, .sub:active, .multi:active, .divide:active {
-          transform: translateY(1px);
-          box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
-        }
-
-        /* Action buttons - Rose warning style */
+        /* Top Action buttons - Light Gray background / Black text */
         .cross, .AC {
-          background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
-          color: #ffffff;
-          box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
+          background-color: #a5a5a5;
+          color: #000000;
+          font-weight: 500;
         }
 
         .cross:hover, .AC:hover {
-          background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(244, 63, 94, 0.4);
+          background-color: #c7c7c7;
         }
 
-        .cross:active, .AC:active {
-          transform: translateY(1px);
-          box-shadow: 0 2px 6px rgba(225, 29, 72, 0.3);
-        }
-
-        /* Equals button - Indigo action style */
-        .ten {
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-          color: #ffffff;
-          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .ten:hover {
-          background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5);
-        }
-
-        .ten:active {
-          transform: translateY(1px);
-          box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Zero button spans 2 columns */
+        /* Pill-shaped 0 button spans 2 columns */
         .Zero {
           grid-column: span 2;
+          width: 100%;
+          height: 72px;
+          border-radius: 36px;
+          padding-left: 28px;
+          justify-content: flex-start;
         }
 
-        /* Tablet View (up to 768px) */
-        @media (max-width: 768px) {
-          .borrder {
-            margin: 3rem auto;
-            padding: 22px;
-            gap: 14px;
-            grid-auto-rows: minmax(78px, auto);
-          }
-
-          .box {
-            font-size: 2.2rem;
-            min-height: 110px;
-            padding: 20px;
-          }
-
-          .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, 
-          .ten, .Zero, .plus, .sub, .multi, .divide, .cross, .AC {
-            font-size: 1.3rem;
-            border-radius: 16px;
+        /* Center-aligned responsive scale for smaller desktop heights */
+        @media (max-height: 850px) and (min-width: 480px) {
+          .iphone-container {
+            transform: scale(0.9);
+            transform-origin: center;
           }
         }
 
-        /* Mobile View (up to 480px) */
+        @media (max-height: 750px) and (min-width: 480px) {
+          .iphone-container {
+            transform: scale(0.8);
+            transform-origin: center;
+          }
+        }
+
+        /* Mobile full-viewport styling */
         @media (max-width: 480px) {
-          .borrder {
-            margin: 2rem auto;
-            padding: 18px;
-            gap: 12px;
-            grid-auto-rows: minmax(68px, auto);
-            border-radius: 26px;
+          body {
+            background-color: #000000;
           }
-
-          .box {
-            font-size: 1.9rem;
-            min-height: 95px;
-            padding: 16px;
-            border-radius: 18px;
+          .calculator-wrapper {
+            padding: 0;
           }
-
+          .iphone-container {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 48px 16px 32px 16px;
+          }
+          .volume-up, .volume-down, .power-btn, .iphone-container::before {
+            display: none; /* Hide switches on pure mobile */
+          }
           .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, 
-          .ten, .Zero, .plus, .sub, .multi, .divide, .cross, .AC {
-            font-size: 1.2rem;
-            border-radius: 14px;
+          .ten, .plus, .sub, .multi, .divide, .cross, .AC {
+            width: 78px;
+            height: 78px;
+            font-size: 1.9rem;
+          }
+          .Zero {
+            height: 78px;
+            border-radius: 39px;
+            padding-left: 30px;
+          }
+          .box {
+            font-size: 4.8rem;
           }
         }
 
-        /* Extra Small Mobile (up to 360px) */
+        /* Micro Mobile Devices */
         @media (max-width: 360px) {
-          .borrder {
-            padding: 14px;
-            gap: 10px;
-            grid-auto-rows: minmax(58px, auto);
-            border-radius: 22px;
-          }
-
-          .box {
-            font-size: 1.6rem;
-            min-height: 85px;
-            padding: 12px;
-            border-radius: 14px;
-          }
-
           .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, 
-          .ten, .Zero, .plus, .sub, .multi, .divide, .cross, .AC {
-            font-size: 1.1rem;
-            border-radius: 12px;
+          .ten, .plus, .sub, .multi, .divide, .cross, .AC {
+            width: 66px;
+            height: 66px;
+            font-size: 1.6rem;
+          }
+          .Zero {
+            height: 66px;
+            border-radius: 33px;
+            padding-left: 24px;
+          }
+          .box {
+            font-size: 4.2rem;
+            min-height: 130px;
+          }
+          .borrder {
+            gap: 10px;
           }
         }
       `}</style>
-      <div className='borrder'>
-        
-        
-        <button className='box'>{displayans}</button>
-        
-        <button className='one'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >1</button>
 
-        <button className='two'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >2</button>
+      <div className="calculator-wrapper">
+        <div className="iphone-container">
+          <div className="volume-up"></div>
+          <div className="volume-down"></div>
+          <div className="power-btn"></div>
+          
+          <div className="box">
+            {displayans.toString().replaceAll('*', '×').replaceAll('/', '÷')}
+          </div>
+          
+          <div className="borrder">
+            <button className="AC" onClick={handelclike}>AC</button>
+            <button className="cross" onClick={handelclike}>⌫</button>
+            <button className="divide" onClick={handelclike}>÷</button>
+            <button className="multi" onClick={handelclike}>×</button>
 
-        <button className='three'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >3</button>
-        <button className='AC'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >AC</button>
+            <button className="seven" onClick={handelclike}>7</button>
+            <button className="eight" onClick={handelclike}>8</button>
+            <button className="nine" onClick={handelclike}>9</button>
+            <button className="sub" onClick={handelclike}>-</button>
 
-        <button className='four'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >4</button>
+            <button className="four" onClick={handelclike}>4</button>
+            <button className="five" onClick={handelclike}>5</button>
+            <button className="six" onClick={handelclike}>6</button>
+            <button className="plus" onClick={handelclike}>+</button>
 
-        <button className='five'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >5</button>
+            <button className="one" onClick={handelclike}>1</button>
+            <button className="two" onClick={handelclike}>2</button>
+            <button className="three" onClick={handelclike}>3</button>
+            <button className="ten" onClick={handelclike}>=</button>
 
-        <button className='six'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >6</button>
-
-        <button className='plus'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >+</button>
-        <button className='seven'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >7</button>
-
-        <button className='eight'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >8</button>
-
-        <button className='nine'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >9</button>
-
-        <button className='sub'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >-</button>
-        <button className='ten'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >=</button>
-
-
-
-        <button className='multi'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >*</button>
-
-        <button className='divide'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >/</button>
-
-        <button className='cross'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >Cross</button>
-
-
-        <button className='Zero'
-        onClick={(e)=>{
-            handelclike(e)
-        }}
-        >0</button>
-
+            <button className="Zero" onClick={handelclike}>0</button>
+          </div>
+        </div>
       </div>
     </div>
   );
